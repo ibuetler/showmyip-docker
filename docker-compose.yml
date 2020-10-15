@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+  showmyip:
+    image: hackinglab/showmyip:latest
+    labels:
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:showmyip.idocker.hacking-lab.com"
+      - "traefik.protocol=http"
+    volumes:
+      - ./logs:/opt/logs
+
+
