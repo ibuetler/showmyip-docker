@@ -2,12 +2,12 @@ version: '2'
 services:
 
   showmyip:
+    build: .
     image: hackinglab/showmyip:latest
     labels:
-      - "traefik.port=80"
-      - "traefik.frontend.rule=Host:showmyip.idocker.hacking-lab.com"
-      - "traefik.protocol=http"
+      - traefik.enable=true
+      - traefik.http.routers.showmyip.rule=Host(`showmyip.idocker.hacking-lab.com`)
+      - traefik.http.services.showmyip.loadbalancer.server.port=8080
     volumes:
       - ./logs:/opt/logs
-
-
+    restart: always

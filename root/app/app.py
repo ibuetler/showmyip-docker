@@ -27,7 +27,7 @@ formatter = RequestFormatter(
 )
 
 
-@app.before_first_request
+@app.before_request
 def before_first_request():
     log_level = logging.INFO
 
@@ -48,7 +48,7 @@ def before_first_request():
 @app.route("/<path:path>")
 def name(path):
     parsed_url = urlparse(request.url)
-    message = request.environ.get('HTTP_X_REAL_IP') + " " + parsed_url.path + " " + parsed_url.query + " " + parsed_url.query + " " + parsed_url.fragment
+    message = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) + " " + parsed_url.path + " " + parsed_url.query + " " + parsed_url.fragment
     app.logger.info(message)
     response = make_response(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
     response.headers['Server'] = 'HL'
