@@ -1,0 +1,30 @@
+
+services:
+  showmyip.idocker.hacking-lab.com:
+    image: hackinglab/alpine-nginx-hl:3.2
+    environment:
+    - AUTHOR=e1
+    - HL_USER_USERNAME=ibuetler
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      # HTTP Routers
+      - "traefik.http.routers.www-hacking-lab.entrypoints=websecure"
+      - "traefik.http.routers.www-hacking-lab.rule=Host(`showmyip.idocker.hacking-lab.com`)"
+      # HTTP Services
+      - "traefik.http.routers.www-hacking-lab.service=www-hacking-lab"
+      - "traefik.http.services.www-hacking-lab.loadBalancer.server.port=80"
+      # Middleware
+      - "traefik.http.routers.www-hacking-lab.middlewares=compass-ip-whitelist@file"
+      # - "traefik.http.routers.www-hacking-lab.middlewares=compass-ip-whitelist@file,NginxSecurityHeaders@file"
+      # - "traefik.http.routers.www-hacking-lab.middlewares=NginxFail2ban@file"
+    volumes:
+      - ./htdocs:/opt/www
+    networks:
+      transit:
+
+networks:
+  transit:
+    external: true
+
+
