@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "setting file permissions /opt/log/livecd.log"
-chown flask:flask /opt/logs/livecd.log
-
